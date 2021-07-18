@@ -3,6 +3,47 @@ from cloudant.error import CloudantException
 from cloudant.result import Result
 from cloudant.result import Result, ResultByKey
 
+import datetime
+import ibm_boto3
+from ibm_botocore.client import Config, ClientError
+import cv2
+import numpy as np
+import sys
+import ibmiotf.application
+import ibmiotf.device
+import random
+import time
+
+#Provide your IBM Watson Device Credentials
+organization = "qkrfgv"
+deviceType = "iotdevice"
+deviceId = "1001"
+authMethod = "token"
+authToken = "1234567890"
+
+
+
+def myCommandCallback(cmd):
+        print("Command received: %s" % cmd.data)
+        print(cmd.data['command'])
+       
+        if(cmd.data['command']=="rotatetoys"):
+                print("Rotate Toys")
+                
+        if(cmd.data['command']=="playmusic"):
+                print("Play Music")
+                
+
+        
+
+try:
+	deviceOptions = {"org": organization, "type": deviceType, "id": deviceId, "auth-method": authMethod, "auth-token": authToken}
+	deviceCli = ibmiotf.device.Client(deviceOptions)
+	#..............................................
+	
+except Exception as e:
+	print("Caught exception connecting device: %s" % str(e))
+	sys.exit()
 
 # IBM Cloudant Legacy authentication
 client = Cloudant("apikey-v2-5jk8pfubd1yc1rgkyaol6aadz67jj9y6zwsvoaqoeuw", "533d636dbf1f1af287084765af2385ae",
